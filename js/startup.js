@@ -1,6 +1,5 @@
 (function () {
 
-
     //function to retrieve the currency conversion rates 
     var url = 'https://prime.exchangerate-api.com/v5/50d8b6b9d8ac1e40db7454a3/latest/CAD';
 
