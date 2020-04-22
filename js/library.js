@@ -7,51 +7,81 @@ var Utility = {
     //to add item or array in the local-storage to the specific key
     add: function (key, values) {
 
-        var data = localStorage.getItem(key);
+        try {
+            var data = localStorage.getItem(key);
 
-        if (data != null) {
+            if (data != null) {
 
-            data = JSON.parse(data);
-            var lastId = data[data.length - 1]["Id"];
+                data = JSON.parse(data);
 
-            if (values.length != undefined) {
+                if (values.length != undefined) {
 
-                for (var i = 0; i < values.length; i++) {
+                    var lastId = data[data.length - 1]["Id"];
 
-                    values[i]["Id"] = lastId + (i + 1);
-                    data.push(values[i]);
+                    for (var i = 0; i < values.length; i++) {
+
+                        values[i]["Id"] = lastId + (i + 1);
+                        data.push(values[i]);
+                    }
+                } else {
+
+                    var lastId = data["Id"];
+                    values["Id"] = lastId + 1;
+                    data.push(values);
                 }
+
+                localStorage.setItem(key, JSON.stringify(data));
             } else {
 
-                values["Id"] = lastId + 1;
-                data.push(values);
+                var arr = new Array();
+
+                if (values.length != undefined) {
+
+                    for (var i = 0; i < values.length; i++) {
+
+                        values[i]["Id"] = (i + 1);
+                        arr.push(values[i]);
+                    }
+                } else {
+                    values["Id"] = 1;
+                    arr.push(values);
+                }
+
+                localStorage.setItem(key, JSON.stringify(arr));
             }
-
-            localStorage.setItem(key, JSON.stringify(data));
-        } else {
-
-            localStorage.setItem(key, JSON.stringify(values));
+        } catch (e) {
+            console.log(`Error occured \n ${e}`);
+            RefreshPage();
         }
+
     },
     //update the one of the value of specific key
     update: function (key, Id, propertyName, newPropertyValue) {
 
-        var data = localStorage.getItem(key);
+        try {
 
-        if (data != null) {
+            var data = localStorage.getItem(key);
 
-            data = JSON.parse(data);
+            if (data != null) {
 
-            for (var i = 0; i < data.length; i++) {
+                data = JSON.parse(data);
 
-                if (data[i]["Id"].toString() === Id.toString()) {
+                for (var i = 0; i < data.length; i++) {
 
-                    data[i][propertyName] = newPropertyValue;
+                    if (data[i]["Id"].toString() === Id.toString()) {
+
+                        data[i][propertyName] = newPropertyValue;
+                    }
                 }
-            }
 
-            localStorage.setItem(key, JSON.stringify(data));
-        } else return;
+                localStorage.setItem(key, JSON.stringify(data));
+            } else return;
+        } catch (e) {
+
+            console.log(`Error occured \n ${e}`);
+            RefreshPage();
+        }
+
     },
     //to remove the object from specific key
     remove: function (key, value) {
@@ -133,6 +163,11 @@ function validateUser() {
 //to logout user from the application
 function logout() {
     localStorage.removeItem("login");
+    location.reload(true);
+}
+
+
+function RefreshPage() {
     location.reload(true);
 }
 
