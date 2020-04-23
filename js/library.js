@@ -26,7 +26,7 @@ var Utility = {
                     }
                 } else {
 
-                    var lastId = data["Id"];
+                    var lastId = data[data.length - 1]["Id"];
                     values["Id"] = lastId + 1;
                     data.push(values);
                 }

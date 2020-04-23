@@ -11,6 +11,7 @@ $(document).ready(function () {
         dialog.dialog("open");
     });
 
+    RetrieveTabValues();
 
     var dialog = $("#dialog-form").dialog({
         autoOpen: false,

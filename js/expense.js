@@ -7,6 +7,8 @@ $(document).ready(function () {
     $("#date").datepicker("option", "dateFormat", "mm/dd/yy");
     $('#splitBetween').selectpicker();
 
+    RetrieveTabValues();
+
     var users = Utility.getKeyData("users");
 
     if (users != null) {
