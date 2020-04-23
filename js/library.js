@@ -3,6 +3,7 @@ Author: Nilkanth Bajaniya
 */
 
 //generic code to perform add, edit, update, remove operation on the data stored in the local storage.
+"use strick"
 var Utility = {
     //to add item or array in the local-storage to the specific key
     add: function (key, values) {

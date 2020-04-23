@@ -1,3 +1,4 @@
+"use strick"
 var baseCurrency = "CAD";
 (function () {
 

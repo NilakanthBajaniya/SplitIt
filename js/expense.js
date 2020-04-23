@@ -1,3 +1,4 @@
+"use strick"
 $(document).ready(function () {
 
     $('.add-new-item').tooltip();

@@ -1,3 +1,4 @@
+"use strick"
 var Currency = {
 
     ConvertCurrency: function (to, amount) {

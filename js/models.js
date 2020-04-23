@@ -1,4 +1,4 @@
-
+"use strick"
 var User = function () {
 
     this.Id = 0;
