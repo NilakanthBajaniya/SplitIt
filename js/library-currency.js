@@ -1,6 +1,7 @@
 "use strick"
 var Currency = {
 
+    //function convert currency from  baseCurrency to other currency
     ConvertCurrency: function (to, amount) {
 
         var conversionRates = Utility.getKeyData('conversionRates');

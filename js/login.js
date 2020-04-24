@@ -1,9 +1,13 @@
 $(document).ready(function(){
 
+    //click event of login button
     $('#loginBtn').click(Login);
+
+    ///assigning the background-image property to login image container
+    $('.bg-login-image').css('background-image', 'url(img/img_avatar.png)');
 });
 
-
+//function validate user credential and navigate to the dashboard.html
 function Login(event) {
 
     event.preventDefault();

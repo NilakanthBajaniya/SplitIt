@@ -1,14 +1,18 @@
 "use strick"
 $(document).ready(function () {
 
+    //tooltip on Add New Expense button
     $('.add-new-item').tooltip();
 
+    //datepicker for date filed in dialogue-box
     $("#date").datepicker();
     $("#date").datepicker("option", "dateFormat", "mm/dd/yy");
     $('#splitBetween').selectpicker();
-    
+
+    //Generates the Income record table
     RetrieveTabValues();
 
+    //Generate the options for the Split Between Drop-down
     var users = Utility.getKeyData("users");
 
     if (users != null) {
@@ -28,17 +32,19 @@ $(document).ready(function () {
 
     $('#splitBetween').selectpicker('refresh')
 
+    //on click of the addExpense button opens the jQuery-UI Dialogue-box
     $("#addExpense").click(function () {
 
         dialog.dialog("open");
     });
 
-
+    //code to open jQuery-UI Dialogue-box
     var dialog = $("#dialog-form").dialog({
         autoOpen: false,
         height: 350,
         width: 500,
         modal: true,
+        //defines the Buttons to display on the dialogue box.
         buttons: {
             "Add Expense": AddExpense,
             Cancel: function () {
@@ -49,14 +55,15 @@ $(document).ready(function () {
             form[0].reset();
         }
     });
-
+    //click event of Add Expense Buttom on the Dialouge boc
     form = dialog.find("form").on("submit", function (event) {
         event.preventDefault();
+        //to add the expense/s records to the local storage.
         AddExpense();
     });
 });
 
-
+//adding expense/s recored to the local-storage
 function AddExpense() {
 
     var description = $("#description").val();
@@ -65,6 +72,7 @@ function AddExpense() {
 
     var splitBetween = $('#splitBetween').selectpicker('val');
 
+    //validating the user entered data
     if (description === '') {
 
         alert("Please Enter some Description");
@@ -105,6 +113,7 @@ function AddExpense() {
         location.reload(true);
     } else if (splitBetween.length > 0) {
 
+        //splitting amount between user
         var splittedAmount = amount / splitBetween.length;
         var users = Utility.getKeyData("users");
 
@@ -123,6 +132,7 @@ function AddExpense() {
 
                 if (userCurrency != baseCurrency) {
 
+                    //converting amount to user currency
                     expense.Amount = parseFloat(Currency.ConvertCurrency(userCurrency, splittedAmount));
                 } else {
                     expense.Amount = splittedAmount;

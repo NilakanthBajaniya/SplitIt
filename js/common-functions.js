@@ -9,9 +9,12 @@ var monthlyIncome = 0,
 
 $(document).ready(function () {
 
+    //append the current user currency to h1 tag below the navigation bar
     $('h1').next().html('User Currency: ' + login.UserCurrency);
 });
 
+//function to generate card values on the like Total income, Monthly Income  etc.
+//also generates the income and expense record tables on the income.html and expense.html
 function RetrieveTabValues() {
 
     var incomes = Utility.search("income", "UserName", login.UserName);
@@ -39,6 +42,8 @@ function RetrieveTabValues() {
 
 };
 
+//Prepares the Income record table on the income.html page
+//also calculates the totalIncome and monthlyIncome 
 function PrepareIncomeLayout(incomes) {
 
     var incomeTbody = $("<tbody></tbody>");
@@ -73,7 +78,8 @@ function PrepareIncomeLayout(incomes) {
     $('.incomeTable').append(incomeTbody);
 };
 
-
+//Prepares the Expense record table on the expense.html page
+//also calculates the totalExpense and monthlyExpense 
 function PrepareExpenseLayout(expenses) {
 
     var expenseTbody = $("<tbody></tbody>");

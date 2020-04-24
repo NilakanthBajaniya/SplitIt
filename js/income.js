@@ -1,18 +1,19 @@
 "use strick"
 $(document).ready(function () {
 
+    //tooltip on Add New Expense button
     $('.add-new-item').tooltip();
 
+    //datepicker for date filed in dialogue-box
     $("#date").datepicker();
     $("#date").datepicker("option", "dateFormat", "mm/dd/yy");
-
-
 
     $("#addIncome").click(function () {
 
         dialog.dialog("open");
     });
 
+    //Generates the Income record table
     RetrieveTabValues();
 
     var dialog = $("#dialog-form").dialog({

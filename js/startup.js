@@ -1,8 +1,17 @@
 "use strick"
+
+
+//global variable to store the current user currency
 var baseCurrency = "CAD";
+
+//retrieving the login user date to use in page other than login.html
 var login = Utility.getKeyData("login");
 
+/*immediately invoked function to assign some required variables
+and to add the basic user data 
+*/
 (function () {
+
 
     AddUsers();
 
@@ -19,6 +28,7 @@ var login = Utility.getKeyData("login");
 
 $(document).ready(function () {
 
+    // to execute the code on the clause page other than login.html
     if (login != null) {
 
         $('.dropdown-list').css('height', '350px');
@@ -27,12 +37,14 @@ $(document).ready(function () {
         $('#alertsDropdown').click(function () {
 
             $('.badge').removeClass('badge-danger');
+            $('.badge').html('');
         });
 
         $("#userName").text(login.UserName);
         CreateNotifications();
     }
 
+    //click event of the User Icon on the right-top side of the nav bar
     $("#userDropdown").click(function () {
 
         $("#dialog-message").dialog({
@@ -50,7 +62,7 @@ $(document).ready(function () {
         });
     });
 
-
+    //checking the if user is logged in or not
     if (!location.pathname.includes("login.html")) {
         ValidateUser();
     }
@@ -59,6 +71,8 @@ $(document).ready(function () {
 
 function ValidateUser() {
 
+    //checks for the key login if the value does not avaliable
+    //it will redirect to the login page
     if (Utility.getKeyData("login") == null) {
 
         location.href = "login.html";
@@ -67,22 +81,29 @@ function ValidateUser() {
 
 //to logout user from the application
 function LogoutUser() {
+
+    //clears the user login
     localStorage.removeItem("login");
     location.reload(true);
 }
 
+//function to generate the contain of the Alert-box 
 function CreateNotifications() {
 
     var notifications = new Array();
+
+    //gets the expense and income data for current user
     var income = Utility.search("income", "UserName", login.UserName);
     var expense = Utility.search("expense", "UserName", login.UserName);
 
+    //if income and expense data is not available  
     if (income == undefined && expense == undefined) {
 
-        $('.dropdown-list').prepend('<h2>No Data Found!</h2>');
+        $('.dropdown-list').prepend('<h6 class="dropdown-header">Alerts Center</h6><h2>No Data Found!</h2>');
         return;
     }
 
+    //filters the income data to display on the notification
     if (income != undefined) {
 
         var incomes = income.reverse((a, b) => new Date(b.IncomeDate) - new Date(a.IncomeDate));
@@ -92,7 +113,7 @@ function CreateNotifications() {
             if (value.isNew) {
 
                 $('.badge').addClass('badge-danger');
-                $('.badge').text('+1');
+                $('.badge').html('+1');
             }
 
             value.Dates = value.IncomeDate;
@@ -102,6 +123,7 @@ function CreateNotifications() {
         });
     }
 
+    //filters the expense data to display on the notification
     if (expense != undefined) {
 
         var expenses = expense.reverse((a, b) => new Date(b.ExpenseDate) - new Date(a.ExpenseDate));
@@ -111,7 +133,7 @@ function CreateNotifications() {
             if (value.isNew) {
 
                 $('.badge').addClass('badge-danger');
-                $('.badge').text('+1');
+                $('.badge').html('+1');
             }
 
             value.Dates = value.ExpenseDate;
@@ -121,6 +143,8 @@ function CreateNotifications() {
         });
     }
 
+
+    //appends the required html to Alert-box 
     var notificationHeader = $('<h6 class="dropdown-header">Alerts Center</h6>');
 
     if (notifications.length > 0) {
@@ -154,6 +178,8 @@ function CreateNotifications() {
     }
 };
 
+//API call using XMLHttpRequest object  and storing the result in the 
+//local-storage
 function AddConversionRates() {
 
     if (Utility.getKeyData("conversionRates") != null) {
@@ -199,6 +225,7 @@ function AddConversionRates() {
     }
 }
 
+//function to add the user data to the local-storage
 function AddUsers() {
 
     if (Utility.getKeyData("users") != null) {
@@ -208,6 +235,7 @@ function AddUsers() {
 
     var user1 = new User();
     var user2 = new User();
+    var user3 = new User();
     var users = new Array();
 
     user1.UserName = "Nilakanth Bajaniya";
@@ -222,28 +250,35 @@ function AddUsers() {
     user2.Password = "Abcd&1234";
     users.push(user2);
 
+    user3.UserName = "James Bond";
+    user3.Email = "jbond@email.com";
+    user3.UserCurrency = "INR";
+    user3.Password = "Abcd&1234";
+    users.push(user3);
+
     Utility.add("users", users);
 }
 
 function LoginUser() {
 
-    var users = Utility.getKeyData("users");
-    var login = Utility.getKeyData("login");
+//     var users = Utility.getKeyData("users");
+//     var login = Utility.getKeyData("login");
 
-    if (login != null) {
+//     if (login != null) {
 
-        return;
-    }
+//         return;
+//     }
 
-    if (users != null) {
+//     if (users != null) {
 
-        Utility.add("login", users[0]);
-    } else {
+//         Utility.add("login", users[0]);
+//     } else {
 
-        RefreshPage();
-    }
+//         RefreshPage();
+//     }
 }
 
+//adds dummy income data for user: Nilakanth Bajaniya
 function AddIncomes() {
 
     var income = '[{"Id":1,"Description":"Salary April","Amount":2000,"IncomeDate":"2020-04-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya","isNew":true},{"Id":2,"Description":"Kingsway Drive - Rent","Amount":1500,"IncomeDate":"2020-04-02T04:00:00.000Z","UserName":"Nilakanth Bajaniya","isNew":true},{"Id":3,"Description":"Store Profit","Amount":2500,"IncomeDate":"2020-04-10T04:00:00.000Z","UserName":"Nilakanth Bajaniya","isNew":true},{"Id":4,"Description":"March Salary","Amount":2000,"IncomeDate":"2020-03-01T05:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":5,"Description":"Kingsway DriveRent","Amount":1500,"IncomeDate":"2020-03-01T05:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":6,"Description":"Store Profit - March","Amount":3500,"IncomeDate":"2020-03-12T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":7,"Description":"Salary February","Amount":2000,"IncomeDate":"2020-02-01T05:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":8,"Description":"Kingsway Drive Rent","Amount":1500,"IncomeDate":"2020-02-01T05:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":9,"Description":"Store Profit","Amount":5000,"IncomeDate":"2020-02-13T05:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":10,"Description":"Salary January","Amount":2000,"IncomeDate":"2020-01-01T05:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":11,"Description":"Kingsway Drive Rent - January","Amount":1500,"IncomeDate":"2020-01-03T05:00:00.000Z","UserName":"Nilakanth Bajaniya"}]';
@@ -257,7 +292,7 @@ function AddIncomes() {
     Utility.add("income", incomes);
 }
 
-
+//adds dummy expense data for user: Nilakanth Bajaniya
 function AddExpenses() {
 
     var expense = '[{"Id":1,"Description":"Coffee","Amount":5,"ExpenseDate":"2020-04-23T04:00:00.000Z","UserName":"Nilakanth Bajaniya","isNew":true},{"Id":2,"Description":"Coffee","Amount":5,"ExpenseDate":"2020-04-23T04:00:00.000Z","UserName":"Nilakanth Bajaniya","isNew":true},{"Id":3,"Description":"Coffee","Amount":3.531,"ExpenseDate":"2020-04-23T04:00:00.000Z","UserName":"John Wick","isNew":true},{"Id":4,"Description":"Car Insurance - April","Amount":150,"ExpenseDate":"2020-04-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya","isNew":true},{"Id":5,"Description":"Mobile Bill - April","Amount":45,"ExpenseDate":"2020-04-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya","isNew":true},{"Id":6,"Description":"Utilities - April","Amount":80,"ExpenseDate":"2020-04-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya","isNew":true},{"Id":7,"Description":"Laundry - April","Amount":20,"ExpenseDate":"2020-04-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya","isNew":true},{"Id":8,"Description":"Grocery - April ","Amount":100,"ExpenseDate":"2020-04-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya","isNew":true},{"Id":9,"Description":"Car Insurance - March","Amount":150,"ExpenseDate":"2020-03-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":10,"Description":"Mobile Bill - March","Amount":45,"ExpenseDate":"2020-03-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":11,"Description":"Utilities - March","Amount":80,"ExpenseDate":"2020-03-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":12,"Description":"Laundry - March","Amount":20,"ExpenseDate":"2020-03-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":14,"Description":"Grocery - March","Amount":100,"ExpenseDate":"2020-03-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":15,"Description":"Car Insurance - February","Amount":150,"ExpenseDate":"2020-02-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":16,"Description":"Mobile Bill - February","Amount":45,"ExpenseDate":"2020-02-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":17,"Description":"Utilities - February","Amount":80,"ExpenseDate":"2020-02-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":18,"Description":"Laundry - February","Amount":20,"ExpenseDate":"2020-02-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":19,"Description":"Grocery - February","Amount":100,"ExpenseDate":"2020-02-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":20,"Description":"Car Insurance - January","Amount":150,"ExpenseDate":"2020-01-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":21,"Description":"Mobile Bill - January","Amount":45,"ExpenseDate":"2020-01-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":22,"Description":"Utilities - January","Amount":80,"ExpenseDate":"2020-01-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":23,"Description":"Laundry - January","Amount":20,"ExpenseDate":"2020-01-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"},{"Id":24,"Description":"Grocery - January","Amount":100,"ExpenseDate":"2020-01-01T04:00:00.000Z","UserName":"Nilakanth Bajaniya"}]';

@@ -1,4 +1,6 @@
 "use strick"
+
+//constructor to create User object
 var User = function () {
 
     this.Id = 0;
@@ -8,6 +10,7 @@ var User = function () {
     this.Password = '';
 }
 
+//constructor to create Income object
 var Income = function () {
 
     this.Id = 0;
@@ -18,6 +21,7 @@ var Income = function () {
     this.isNew = true;
 }
 
+//constructor to create Expense object
 var Expense = function () {
 
     this.Id = 0;

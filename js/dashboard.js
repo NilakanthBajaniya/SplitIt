@@ -1,9 +1,13 @@
 "use strick"
 $(document).ready(function () {
 
+    //retriving the income data for current user
     var incomes = Utility.search("income", "UserName", login.UserName);
 
     if (incomes != undefined) {
+
+        //filtering the income data by month
+        //to display on the bar graph
 
         var array = [];
         var incomeMonths = [];
@@ -43,11 +47,12 @@ $(document).ready(function () {
             monthIncomes.push(array[getMonthText(incomeMonths[i])]);
         }
 
+
         maxIncome = monthIncomes.reduce(function (a, b) {
             return Math.max(a, b);
         });
 
-
+        //jQuery chart.js code to display the bar-chart
         var barChart = new Chart($('#barChart'), {
             type: 'bar',
             data: {
@@ -87,7 +92,7 @@ $(document).ready(function () {
                     yAxes: [{
                         ticks: {
                             min: 0,
-                            max: 15000,
+                            max: maxIncome + 1000,
                             maxTicksLimit: 5,
                             padding: 10,
                             // Include a dollar sign in the ticks
@@ -131,12 +136,18 @@ $(document).ready(function () {
 
         barChart.canvas.parentNode.style.height = '400px';
     } else {
+
+        //if income data is not available the bar chart container will display following Message
         $('#barChart').parent().html('<h2>No Data Available!!</h2>');
     }
 
+    //retriving the income data for current user
     var expenses = Utility.search("expense", "UserName", login.UserName);
 
     if (expenses != undefined) {
+
+        //filtering the expense data by month
+        //to display on the bar graph
         var array1 = [];
         var expenseMonths = [];
 
@@ -179,6 +190,7 @@ $(document).ready(function () {
             return Math.max(a, b);
         });
 
+        //jQuery chart.js code to display the pie-chart
         var pieChart = new Chart($('#pieChart'), {
             type: 'pie',
             data: {
@@ -213,12 +225,14 @@ $(document).ready(function () {
         pieChart.canvas.parentNode.style.height = '400px';
     } else {
 
+        //if expense data is not available the pie-chart container will display following Message
         $('#pieChart').parent().html('<h2>No Data Available!!</h2>');
     }
 
 
 });
 
+//function to return thr text of the month with output of Date().getMonth()
 function getMonthText(currentMonth) {
     if (currentMonth === 0) {
         return "January";
