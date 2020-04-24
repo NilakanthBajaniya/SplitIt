@@ -1,74 +1,131 @@
 "use strick"
 var baseCurrency = "CAD";
+var login = Utility.getKeyData("login");
+
 (function () {
 
-    AddIncomes();
-    AddExpenses();
-    AddConversionRates();
     AddUsers();
-    LoginUser();
 
+    if (login != null) {
+
+        login = login[0];
+        baseCurrency = login.UserCurrency;
+        AddIncomes();
+        AddExpenses();
+        AddConversionRates();
+        //LoginUser();
+    }
 })();
 
 $(document).ready(function () {
 
-    $('.dropdown-list').css('height', '350px');
-    $('.dropdown-list').css('overflow-y', 'scroll');
+    if (login != null) {
 
-    $('#alertsDropdown').click(function () {
+        $('.dropdown-list').css('height', '350px');
+        $('.dropdown-list').css('overflow-y', 'scroll');
 
-        $('.badge').removeClass('badge-danger');
+        $('#alertsDropdown').click(function () {
+
+            $('.badge').removeClass('badge-danger');
+        });
+
+        $("#userName").text(login.UserName);
+        CreateNotifications();
+    }
+
+    $("#userDropdown").click(function () {
+
+        $("#dialog-message").dialog({
+            modal: false,
+            buttons: {
+                //function call when logout button is clicked.
+                Logout: LogoutUser,
+
+                //anonymous function to close the dialog box 
+                cancel: function () {
+                    $(this).dialog("close");
+                }
+
+            }
+        });
     });
 
-    $("#userName").text(login.UserName);
 
-    CreateNotifications();
+    if (!location.pathname.includes("login.html")) {
+        ValidateUser();
+    }
 });
+
+
+function ValidateUser() {
+
+    if (Utility.getKeyData("login") == null) {
+
+        location.href = "login.html";
+    }
+}
+
+//to logout user from the application
+function LogoutUser() {
+    localStorage.removeItem("login");
+    location.reload(true);
+}
 
 function CreateNotifications() {
 
+    var notifications = new Array();
     var income = Utility.search("income", "UserName", login.UserName);
     var expense = Utility.search("expense", "UserName", login.UserName);
 
-    var incomes = income.reverse((a, b) => new Date(b.IncomeDate) - new Date(a.IncomeDate));
-    var expenses = expense.reverse((a, b) => new Date(b.ExpenseDate) - new Date(a.ExpenseDate));
+    if (income == undefined && expense == undefined) {
 
-    var notifications = new Array();
+        $('.dropdown-list').prepend('<h2>No Data Found!</h2>');
+        return;
+    }
 
-    $.each(incomes, function (index, value) {
+    if (income != undefined) {
 
-        if (value.isNew) {
+        var incomes = income.reverse((a, b) => new Date(b.IncomeDate) - new Date(a.IncomeDate));
 
-            $('.badge').addClass('badge-danger');
-            $('.badge').text('+1');
-        }
+        $.each(incomes, function (index, value) {
 
-        value.Dates = value.IncomeDate;
-        notifications.push(value);
-        value.isNew = false;
-        Utility.update("income", value.Id, "isNew", false);
-    });
+            if (value.isNew) {
 
-    $.each(expenses, function (index, value) {
+                $('.badge').addClass('badge-danger');
+                $('.badge').text('+1');
+            }
 
-        if (value.isNew) {
+            value.Dates = value.IncomeDate;
+            notifications.push(value);
+            value.isNew = false;
+            Utility.update("income", value.Id, "isNew", false);
+        });
+    }
 
-            $('.badge').addClass('badge-danger');
-            $('.badge').text('+1');
-        }
+    if (expense != undefined) {
 
-        value.Dates = value.ExpenseDate;
-        notifications.push(value);
-        value.isNew = false;
-        Utility.update("expense", value.Id, "isNew", false);
-    });
+        var expenses = expense.reverse((a, b) => new Date(b.ExpenseDate) - new Date(a.ExpenseDate));
+
+        $.each(expenses, function (index, value) {
+
+            if (value.isNew) {
+
+                $('.badge').addClass('badge-danger');
+                $('.badge').text('+1');
+            }
+
+            value.Dates = value.ExpenseDate;
+            notifications.push(value);
+            value.isNew = false;
+            Utility.update("expense", value.Id, "isNew", false);
+        });
+    }
 
     var notificationHeader = $('<h6 class="dropdown-header">Alerts Center</h6>');
 
     if (notifications.length > 0) {
 
         notifications.sort(function (a, b) {
-            debugger
             return new Date(a.Dates).getTime() - new Date(b.Dates).getTime()
         });
 
@@ -156,11 +213,13 @@ function AddUsers() {
     user1.UserName = "Nilakanth Bajaniya";
     user1.Email = "nbajaniya@email.com";
     user1.UserCurrency = "CAD";
+    user1.Password = "Abcd&1234";
     users.push(user1);
 
     user2.UserName = "John Wick";
     user2.Email = "jwick@email.com";
     user2.UserCurrency = "USD";
+    user2.Password = "Abcd&1234";
     users.push(user2);
 
     Utility.add("users", users);

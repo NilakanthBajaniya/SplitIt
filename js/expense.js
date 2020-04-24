@@ -123,7 +123,7 @@ function AddExpense() {
 
                 if (userCurrency != baseCurrency) {
 
-                    expense.Amount = Currency.ConvertCurrency(userCurrency, splittedAmount);
+                    expense.Amount = parseFloat(Currency.ConvertCurrency(userCurrency, splittedAmount));
                 } else {
                     expense.Amount = splittedAmount;
                 }

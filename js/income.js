@@ -67,7 +67,7 @@ function addIncome() {
         }
         if (user != null && user[0].UserCurrency != baseCurrency) {
 
-            amount = Currency.ConvertCurrency(user[0].UserCurrency, amount);
+            amount = parseFloat(Currency.ConvertCurrency(user[0].UserCurrency, amount));
             income.Amount = amount;
         } else {
 

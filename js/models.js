@@ -5,6 +5,7 @@ var User = function () {
     this.UserName = '';
     this.Email = '';
     this.UserCurrency = '';
+    this.Password = '';
 }
 
 var Income = function () {

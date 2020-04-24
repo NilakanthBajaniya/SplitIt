@@ -7,8 +7,6 @@ var monthlyIncome = 0,
     totalIncome = 0,
     totalExpense = 0;
 
-var login = Utility.getKeyData("login")[0];
-
 $(document).ready(function () {
 
     $('h1').next().html('User Currency: ' + login.UserCurrency);
@@ -19,18 +17,25 @@ function RetrieveTabValues() {
     var incomes = Utility.search("income", "UserName", login.UserName);
     var expenses = Utility.search("expense", "UserName", login.UserName);
 
-    PrepareIncomeLayout(incomes);
-    PrepareExpenseLayout(expenses);
+    if (incomes != undefined) {
+
+        PrepareIncomeLayout(incomes);
+    }
+
+    if (expenses != undefined) {
+
+        PrepareExpenseLayout(expenses);
+    }
 
     $('#dataTable').dataTable({
         "paging": true
     });
 
-    $('#totalEarning').html(totalIncome)
-    $('#monthlyEarning').html(monthlyIncome)
+    $('#totalEarning').html(totalIncome.toFixed(2));
+    $('#monthlyEarning').html(monthlyIncome.toFixed(2));
 
-    $('#monthlyExpense').html(monthlyExpense.toFixed(2))
-    $('#totalExpense').html(totalExpense.toFixed(2))
+    $('#monthlyExpense').html(monthlyExpense.toFixed(2));
+    $('#totalExpense').html(totalExpense.toFixed(2));
 
 };
 

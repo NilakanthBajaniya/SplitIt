@@ -1,211 +1,222 @@
 "use strick"
 $(document).ready(function () {
 
-    var array = [];
-
     var incomes = Utility.search("income", "UserName", login.UserName);
 
-    var incomeMonths = [];
+    if (incomes != undefined) {
 
-    $.each(incomes, function (index, value) {
+        var array = [];
+        var incomeMonths = [];
 
-        var month = new Date(value.IncomeDate).getMonth();
+        $.each(incomes, function (index, value) {
 
-        if (!incomeMonths.includes(month)) {
+            var month = new Date(value.IncomeDate).getMonth();
 
-            incomeMonths.push(month);
-            array[getMonthText(month)] = 0;
-        }
-    });
+            if (!incomeMonths.includes(month)) {
 
-    for (var i = 0; i < incomeMonths.length; i++) {
+                incomeMonths.push(month);
+                array[getMonthText(month)] = 0;
+            }
+        });
 
-        for (var j = 0; j < incomes.length; j++) {
+        for (var i = 0; i < incomeMonths.length; i++) {
 
-            var month = new Date(incomes[j].IncomeDate).getMonth();
+            for (var j = 0; j < incomes.length; j++) {
 
-            if (incomeMonths[i] == month) {
+                var month = new Date(incomes[j].IncomeDate).getMonth();
 
-                array[getMonthText(month)] += incomes[j].Amount;
+                if (incomeMonths[i] == month) {
+
+                    array[getMonthText(month)] += incomes[j].Amount;
+                }
             }
         }
-    }
 
-    incomeMonths.sort();
-    var monthLabels = [];
-    var monthIncomes = [];
-    var maxIncome = 0;
+        incomeMonths.sort();
+        var monthLabels = [];
+        var monthIncomes = [];
+        var maxIncome = 0;
 
-    for (var i = 0; i < incomeMonths.length; i++) {
+        for (var i = 0; i < incomeMonths.length; i++) {
 
-        monthLabels.push(getMonthText(incomeMonths[i]));
-        monthIncomes.push(array[getMonthText(incomeMonths[i])]);
-    }
-
-    maxIncome = monthIncomes.reduce(function (a, b) {
-        return Math.max(a, b);
-    });
-
-
-    var barChart = new Chart($('#barChart'), {
-        type: 'bar',
-        data: {
-            labels: monthLabels,
-            datasets: [{
-                label: "Revenue",
-                backgroundColor: "#4e73df",
-                hoverBackgroundColor: "#2e59d9",
-                borderColor: "#4e73df",
-                data: monthIncomes,
-            }],
-        },
-        options: {
-            maintainAspectRatio: false,
-            layout: {
-                padding: {
-                    left: 10,
-                    right: 25,
-                    top: 25,
-                    bottom: 0
-                }
-            },
-            scales: {
-                xAxes: [{
-                    time: {
-                        unit: 'month'
-                    },
-                    gridLines: {
-                        display: false,
-                        drawBorder: false
-                    },
-                    ticks: {
-                        maxTicksLimit: 6
-                    },
-                    maxBarThickness: 25,
-                }],
-                yAxes: [{
-                    ticks: {
-                        min: 0,
-                        max: 15000,
-                        maxTicksLimit: 5,
-                        padding: 10,
-                        // Include a dollar sign in the ticks
-                        callback: function (value, index, values) {
-                            return '$ ' + value;
-                        }
-                    },
-                    gridLines: {
-                        color: "rgb(234, 236, 244)",
-                        zeroLineColor: "rgb(234, 236, 244)",
-                        drawBorder: false,
-                        borderDash: [2],
-                        zeroLineBorderDash: [2]
-                    }
-                }],
-            },
-            legend: {
-                display: false
-            },
-            tooltips: {
-                titleMarginBottom: 10,
-                titleFontColor: '#6e707e',
-                titleFontSize: 14,
-                backgroundColor: "rgb(255,255,255)",
-                bodyFontColor: "#858796",
-                borderColor: '#dddfeb',
-                borderWidth: 1,
-                xPadding: 15,
-                yPadding: 15,
-                displayColors: false,
-                caretPadding: 10,
-                callbacks: {
-                    label: function (tooltipItem, chart) {
-                        var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-                        return datasetLabel + ': $' + tooltipItem.yLabel;
-                    }
-                }
-            },
+            monthLabels.push(getMonthText(incomeMonths[i]));
+            monthIncomes.push(array[getMonthText(incomeMonths[i])]);
         }
-    });
 
-    barChart.canvas.parentNode.style.height = '400px';
+        maxIncome = monthIncomes.reduce(function (a, b) {
+            return Math.max(a, b);
+        });
 
-    var array1 = [];
+
+        var barChart = new Chart($('#barChart'), {
+            type: 'bar',
+            data: {
+                labels: monthLabels,
+                datasets: [{
+                    label: "Revenue",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#2e59d9",
+                    borderColor: "#4e73df",
+                    data: monthIncomes,
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 25,
+                        top: 25,
+                        bottom: 0
+                    }
+                },
+                scales: {
+                    xAxes: [{
+                        time: {
+                            unit: 'month'
+                        },
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            maxTicksLimit: 6
+                        },
+                        maxBarThickness: 25,
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            min: 0,
+                            max: 15000,
+                            maxTicksLimit: 5,
+                            padding: 10,
+                            // Include a dollar sign in the ticks
+                            callback: function (value, index, values) {
+                                return '$ ' + value;
+                            }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    titleMarginBottom: 10,
+                    titleFontColor: '#6e707e',
+                    titleFontSize: 14,
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                    callbacks: {
+                        label: function (tooltipItem, chart) {
+                            var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
+                            return datasetLabel + ': $' + tooltipItem.yLabel;
+                        }
+                    }
+                },
+            }
+        });
+
+        barChart.canvas.parentNode.style.height = '400px';
+    } else {
+        $('#barChart').parent().html('<h2>No Data Available!!</h2>');
+    }
+
     var expenses = Utility.search("expense", "UserName", login.UserName);
 
-    var expenseMonths = [];
+    if (expenses != undefined) {
+        var array1 = [];
+        var expenseMonths = [];
 
-    $.each(expenses, function (index, value) {
+        $.each(expenses, function (index, value) {
 
-        var month = new Date(value.ExpenseDate).getMonth();
+            var month = new Date(value.ExpenseDate).getMonth();
 
-        if (!expenseMonths.includes(month)) {
+            if (!expenseMonths.includes(month)) {
 
-            expenseMonths.push(month);
-            array1[getMonthText(month)] = 0;
-        }
-    });
+                expenseMonths.push(month);
+                array1[getMonthText(month)] = 0;
+            }
+        });
 
-    for (var i = 0; i < expenseMonths.length; i++) {
+        for (var i = 0; i < expenseMonths.length; i++) {
 
-        for (var j = 0; j < expenses.length; j++) {
+            for (var j = 0; j < expenses.length; j++) {
 
-            var month = new Date(expenses[j].ExpenseDate).getMonth();
+                var month = new Date(expenses[j].ExpenseDate).getMonth();
 
-            if (expenseMonths[i] == month) {
+                if (expenseMonths[i] == month) {
 
-                array1[getMonthText(month)] += expenses[j].Amount;
+                    array1[getMonthText(month)] += expenses[j].Amount;
+                }
             }
         }
+
+        expenseMonths.sort();
+        var expenseMonthLabels = [];
+        var expenseMonthIncomes = [];
+        var maxExpense = 0;
+
+        for (var i = 0; i < expenseMonths.length; i++) {
+
+            expenseMonthLabels.push(getMonthText(expenseMonths[i]));
+            expenseMonthIncomes.push(array1[getMonthText(expenseMonths[i])]);
+        }
+
+        maxExpense = expenseMonthIncomes.reduce(function (a, b) {
+            return Math.max(a, b);
+        });
+
+        var pieChart = new Chart($('#pieChart'), {
+            type: 'pie',
+            data: {
+                labels: expenseMonthLabels,
+                datasets: [{
+                    data: expenseMonthIncomes,
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: true
+                },
+
+                cutoutPercentage: 80,
+            },
+        });
+
+        pieChart.canvas.parentNode.style.height = '400px';
+    } else {
+
+        $('#pieChart').parent().html('<h2>No Data Available!!</h2>');
     }
 
-    expenseMonths.sort();
-    var expenseMonthLabels = [];
-    var expenseMonthIncomes = [];
-    var maxExpense = 0;
 
-    for (var i = 0; i < expenseMonths.length; i++) {
-
-        expenseMonthLabels.push(getMonthText(expenseMonths[i]));
-        expenseMonthIncomes.push(array1[getMonthText(expenseMonths[i])]);
-    }
-
-    maxExpense = expenseMonthIncomes.reduce(function (a, b) {
-        return Math.max(a, b);
-    });
-
-    var pieChart = new Chart($('#pieChart'), {
-        type: 'pie',
-        data: {
-            labels: expenseMonthLabels,
-            datasets: [{
-                data: expenseMonthIncomes,
-                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
-                hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-                hoverBorderColor: "rgba(234, 236, 244, 1)",
-            }],
-        },
-        options: {
-            maintainAspectRatio: false,
-            tooltips: {
-                backgroundColor: "rgb(255,255,255)",
-                bodyFontColor: "#858796",
-                borderColor: '#dddfeb',
-                borderWidth: 1,
-                xPadding: 15,
-                yPadding: 15,
-                displayColors: false,
-                caretPadding: 10,
-            },
-            legend: {
-                display: true
-            },
-
-            cutoutPercentage: 80,
-        },
-    });
-
-    pieChart.canvas.parentNode.style.height = '400px';
 });
 
 function getMonthText(currentMonth) {
