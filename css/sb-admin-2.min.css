@@ -20,6 +20,7 @@
     background: rgba(90,92,105,.5);
     line-height: 46px;
     display: inline;
+    z-index: 1;
  }
 
  .add-new-item:hover{

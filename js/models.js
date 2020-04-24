@@ -14,6 +14,7 @@ var Income = function () {
     this.Amount = 0;
     this.IncomeDate = new Date();
     this.UserName = '';
+    this.isNew = true;
 }
 
 var Expense = function () {
@@ -23,4 +24,5 @@ var Expense = function () {
     this.Amount = 0;
     this.ExpenseDate = new Date();
     this.UserName = '';
+    this.isNew = true;
 }

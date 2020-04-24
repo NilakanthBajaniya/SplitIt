@@ -6,6 +6,8 @@ $(document).ready(function () {
     $("#date").datepicker();
     $("#date").datepicker("option", "dateFormat", "mm/dd/yy");
 
+
+
     $("#addIncome").click(function () {
 
         dialog.dialog("open");
