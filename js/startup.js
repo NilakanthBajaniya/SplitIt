@@ -190,7 +190,7 @@ function AddConversionRates() {
     try {
 
         //function to retrieve the currency conversion rates
-        var url = 'https://prime.exchangerate-api.com/v5/50d8b6b9d8ac1e40db7454a3/latest/CAD';
+        var url = 'https://v6.exchangerate-api.com/v6/3c3d929f73dc4012a2178024/latest/CAD';
 
         //request object to api for conversion rates.
         var xhttp = new XMLHttpRequest();
