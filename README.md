@@ -2,5 +2,5 @@
 
 User following credentials to login
 
-Email: nilbajaniya@email.com
+Email: nbajaniya@email.com
 Password: Abcd&1234
