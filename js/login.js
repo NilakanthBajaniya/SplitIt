@@ -31,7 +31,7 @@ function Login(event) {
 
             Utility.removeKey('login');
             Utility.add('login', user[0]);
-            location.href = "dashboard.html";
+            location.href = "Dashboard.html";
         }
         else alert("Enter valid Username and Password!!");
     }
