@@ -210,8 +210,18 @@ function AddConversionRates() {
 
                         //storing the conversion Rates in the local-storage
                         Utility.add("conversionRates", rates);
-                    };
+                    } else {
+                        var result = JSON.parse(AddSavedConversionRate());
+                        var rates = result.conversion_rates;
+                        Utility.add("conversionRates", rates);
+                    }
                 }
+                else {
+                    var result = JSON.parse(AddSavedConversionRate());
+                    var rates = result.conversion_rates;
+                    Utility.add("conversionRates", rates);
+                }
+
             } catch (Exception) {
 
                 RefreshPage();
@@ -223,6 +233,11 @@ function AddConversionRates() {
 
         RefreshPage();
     }
+}
+
+function AddSavedConversionRate() {
+
+    return '{"result":"success","documentation":"https://www.exchangerate-api.com/docs","terms_of_use":"https://www.exchangerate-api.com/terms","time_last_update_unix":1618963201,"time_last_update_utc":"Wed, 21 Apr 2021 00:00:01 +0000","time_next_update_unix":1619049601,"time_next_update_utc":"Thu, 22 Apr 2021 00:00:01 +0000","base_code":"CAD","conversion_rates":{"CAD":1,"AED":2.9310,"AFN":62.0109,"ALL":81.7503,"AMD":417.0400,"ANG":1.4286,"AOA":529.1140,"ARS":74.2295,"AUD":1.0274,"AWG":1.4286,"AZN":1.3576,"BAM":1.2959,"BBD":1.5962,"BDT":67.8218,"BGN":1.2960,"BHD":0.3001,"BIF":1559.3258,"BMD":0.7981,"BND":1.0589,"BOB":5.5054,"BRL":4.4348,"BSD":0.7981,"BTN":59.9016,"BWP":8.6672,"BYN":2.0660,"BZD":1.5962,"CDF":1587.8054,"CHF":0.7294,"CLP":559.8356,"CNY":5.1886,"COP":2915.6981,"CRC":490.7231,"CUC":0.7981,"CUP":20.5507,"CVE":73.0614,"CZK":17.2009,"DJF":141.8363,"DKK":4.9432,"DOP":45.4362,"DZD":105.6761,"EGP":12.5355,"ERN":11.9713,"ETB":33.4288,"EUR":0.6626,"FJD":1.6165,"FKP":0.5719,"FOK":4.9432,"GBP":0.5719,"GEL":2.7544,"GGP":0.5719,"GHS":4.6207,"GIP":0.5719,"GMD":41.5206,"GNF":8030.9524,"GTQ":6.1664,"GYD":169.1220,"HKD":6.1917,"HNL":19.2411,"HRK":4.9923,"HTG":66.0379,"HUF":239.8611,"IDR":11538.8039,"ILS":2.6051,"IMP":0.5719,"INR":59.9021,"IQD":1168.8096,"IRR":33571.6133,"ISK":100.6076,"JMD":119.9933,"JOD":0.5658,"JPY":86.2380,"KES":86.4045,"KGS":67.7013,"KHR":3243.1051,"KID":1.0274,"KMF":325.9771,"KRW":889.4301,"KWD":0.2391,"KYD":0.6651,"KZT":343.7218,"LAK":7542.0208,"LBP":1203.1115,"LKR":152.0023,"LRD":137.9209,"LSL":11.3737,"LYD":3.6163,"MAD":7.1120,"MDL":14.3704,"MGA":3013.0890,"MKD":40.9712,"MMK":1129.0798,"MNT":2282.5444,"MOP":6.3773,"MRU":28.4414,"MUR":32.5434,"MVR":12.3277,"MWK":632.0559,"MXN":15.8589,"MYR":3.2847,"MZN":44.3366,"NAD":11.3737,"NGN":316.2361,"NIO":28.0442,"NOK":6.6338,"NPR":95.8425,"NZD":1.1083,"OMR":0.3069,"PAB":0.7981,"PEN":2.9313,"PGK":2.8137,"PHP":38.5511,"PKR":122.3218,"PLN":3.0154,"PYG":5123.1748,"QAR":2.9050,"RON":3.2667,"RSD":77.8460,"RUB":61.0372,"RWF":799.5775,"SAR":2.9928,"SBD":6.3706,"SCR":14.8635,"SDG":305.1762,"SEK":6.7091,"SGD":1.0589,"SHP":0.5719,"SLL":8181.6673,"SOS":463.4414,"SRD":11.3406,"SSP":142.1369,"STN":16.2337,"SYP":999.7663,"SZL":11.3737,"THB":24.9741,"TJS":9.0366,"TMT":2.7969,"TND":2.1865,"TOP":1.7993,"TRY":6.4646,"TTD":5.4860,"TVD":1.0274,"TWD":22.4511,"TZS":1853.1484,"UAH":22.3642,"UGX":2893.4312,"USD":0.7982,"UYU":35.2993,"UZS":8340.8000,"VES":1969433.1790,"VND":18429.6950,"VUV":86.3288,"WST":1.9945,"XAF":434.6361,"XCD":2.1548,"XDR":0.5567,"XOF":434.6361,"XPF":79.0692,"YER":200.0752,"ZAR":11.3738,"ZMW":17.7443}}';
 }
 
 //function to add the user data to the local-storage
@@ -261,21 +276,21 @@ function AddUsers() {
 
 function LoginUser() {
 
-//     var users = Utility.getKeyData("users");
-//     var login = Utility.getKeyData("login");
+    //     var users = Utility.getKeyData("users");
+    //     var login = Utility.getKeyData("login");
 
-//     if (login != null) {
+    //     if (login != null) {
 
-//         return;
-//     }
+    //         return;
+    //     }
 
-//     if (users != null) {
+    //     if (users != null) {
 
-//         Utility.add("login", users[0]);
-//     } else {
+    //         Utility.add("login", users[0]);
+    //     } else {
 
-//         RefreshPage();
-//     }
+    //         RefreshPage();
+    //     }
 }
 
 //adds dummy income data for user: Nilakanth Bajaniya
