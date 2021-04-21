@@ -1,7 +1,5 @@
 ## Project: Split It
 
-## How to use this app
-
 ## Step 1: Use following credentials to login
 
 Email: `nbajaniya@email.com`
